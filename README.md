@@ -32,33 +32,9 @@ npm run android
 yarn android
 ```
 
-### iOS
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+If everything is set up correctly, you should see your new app running in the Android Emulator, or your connected device.
 
 This is one way to run your app — you can also build it directly from Android Studio or Xcode.
 
@@ -71,207 +47,323 @@ Open `App.tsx` in your text editor of choice and make some changes. When you sav
 When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
 
 - **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
 
-## Congratulations! :tada:
+#
+#
+#
+#
+#
 
-You've successfully run and modified your React Native App. :partying_face:
+# Mise en place du projet **React Native** 
 
-### Now what?
+> Documentation de référence : <https://reactnative.dev/docs/getting-started-without-a-framework>
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+---
 
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
-
-
-# Mise en place du projet : 
-on utilise cette doc : 
-
-https://reactnative.dev/docs/getting-started-without-a-framework
-
-on installe nvm et node
+## 1 · Installer **nvm** & **Node.js**
 
 ```bash
-$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+# Installer nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 
-$ nvm install node
+# Installer la dernière version LTS de Node.js
+nvm install node
 
-node -v 
-v24.0.1
-
-nvm -v
-0.40.3
+# Vérifications
+node -v   # v24.0.1
+nvm  -v   # 0.40.3
 ```
 
-on rentre la commande pour installer React Native Cli : 
+---
+
+## 2 · Créer le projet React Native (CLI)
 
 ```bash
-$ npx @react-native-community/cli@latest init appliDbzCda
+npx @react-native-community/cli@latest init appliDbzCda
 ```
 
-on ouvre le projet dans vscode
+*Ouvrez le dossier dans **VS Code** — le point d’entrée est `App.tsx`.*
 
-app.tsx point d’entrée
+---
 
-pour demarrer le projet en android  on : npm run android
+## 3 · Premier lancement Android
 
-on a des erreurs donc on  : npx react-native doctor
+```bash
+npm run android          # construit et déploie l’app
+# En cas d’erreurs :
+npx react-native doctor  # liste les éléments manquants
+```
 
-ce doctor nous montre ce qu’il manque a setup.
+---
 
-on ouvre android studio on installe android 16,15,14,13 et les tools suivants ( android sdk build-tools 38, ndk ( side by side ), CMake, AndroidEmulator, Android SDK Platform-Tools ) 
+## 4 · Configurer **Android Studio**
 
-on ouvre le fichier android de notre projet dans android studio afin de mettre a jour les chemins, créer les dossiers et le build. 
+1. Installez les API 16, 15, 14, 13  
+2. Ajoutez :
+   - **Build‑Tools 38**
+   - **NDK (Side by Side)**
+   - **CMake**
+   - **Android Emulator**
+   - **Android SDK Platform‑Tools**
+3. Ouvrez le dossier `android/` du projet pour mettre à jour les chemins et générer le build.
 
-on va préparer un émulateur, on installe api 36 avec google play, on installe un autre en api 35 au cas ou et peutetre même un api 34 pour mon android 14
+### Créer des émulateurs
 
-on va telecharger les jdk java
+- **API 36** (Google Play)  
+- **API 35**  
+- *(optionnel)* **API 34** (Android 14)
 
-dans cmd : cd ~
+---
 
-ls -a
+## 5 · Installer le **JDK**
 
-Windows : bash ou powershell (a verifier )
+```bash
+java --version   # doit renvoyer openjdk 17.0.15 (ou équivalent)
+```
 
-sur linux : open . et ouvrir bashrc dans vscode
+> Absent ? Suivez : <https://www.linode.com/docs/guides/how-to-install-openjdk-ubuntu-22-04/>
 
-on check si java jdk est installé : java —version = openjdk 17.0.15 2025-04-15
+---
 
-sinon donwload java : https://www.linode.com/docs/guides/how-to-install-openjdk-ubuntu-22-04/
+## 6 · Variables d’environnement Android
 
-maintenant dans le .bashrc on rajoute nos variables d’env de android
+Ajoutez dans `~/.bashrc` :
 
-```markdown
+```bash
 export ANDROID_HOME="$HOME/Android/Sdk"
 export PATH="$PATH:$ANDROID_HOME/emulator"
-export PATH="$PATH:$ANDROID_HOME/platforms-tools"
-```
+export PATH="$PATH:$ANDROID_HOME/platform-tools"
 
-on source afin de mettre a jour le bashrc : $ source ~/.bashrc
-
- on reteste un doctor : npx react-native doctor
-
-il nous manque  :  ✖ Android Studio - Required for building and installing your app on Android
-
-pour résoudre ce probléme nous, ajoutons le path du [studio.sh](http://studio.sh) 
-
-```markdown
-# installé via Snap, utilisez le lien 'current' pour toujours cibler la dernière version
+# Si Android Studio est installé via Snap :
 export ANDROID_STUDIO_HOME="/snap/android-studio/current"
-# Ajout du binaire studio.sh au PATH
 export PATH="$PATH:$ANDROID_STUDIO_HOME/bin"
-
 ```
 
-puis source ~/.bashrc
+Puis rechargez :
 
-probléme toujours la !
-on tente de créer un wrapper pour le test du doctor, le doctor va tester un 
+```bash
+source ~/.bashrc
+```
 
-mais au final c’est seulement une erreur non problematique
+Le *doctor* peut encore afficher « ✖ Android Studio », mais ce n’est pas bloquant si le build passe.
 
-enfait il fallait juste 
+---
 
-npm start
+## 7 · Lancer l’application
 
-npm run android 
+```bash
+npm start         # démarre Metro
+npm run android   # compile & déploie
+```
 
-l’emulateur dans android studio ouvre la page Welcome to React Native
+L’émulateur affiche **Welcome to React Native**.
 
-ensuite on commence l’architecture
+---
 
-Architecture :
+# Organisation du code
 
-- on va installer les librairies dont on a besoin
-- architecturer notre dossier ( components, … )
-- mettre en place le routeur
-- mettre en place le store pour gérer les data
+- Installer les librairies nécessaires  
+- Structurer le dossier (`components`, …)  
+- Mettre en place le routeur  
+- Mettre en place le store (données)
 
-on va ouvrir une page internet ( React Navigation ) 
+## Arborescence recommandée
 
-https://reactnavigation.org/docs/getting-started
+```
+src/
+ ├─ assets/         # fonts, images
+ ├─ components/
+ ├─ constants/
+ ├─ navigations/
+ ├─ screens/
+ ├─ store/
+ └─ types/
+```
 
-- npm install @react-navigation/native
-- npm install react-native-screens react-native-safe-area-context
-- si probléme d’installation run : npm uninstall
+---
 
-suite a l’installation il faut ajouter react-native-screens dans le MainActivity.kt de src/main.java
+## Dépendances principales
 
-puis on ajoute l’import
+```bash
+# Navigation
+npm install @react-navigation/native
+npm install react-native-screens react-native-safe-area-context
+npm install @react-navigation/stack @react-navigation/bottom-tabs
+npm install @react-navigation/native-stack
+npm install react-native-gesture-handler
 
-import android.os.Bundle
+# State management
+npm install react-redux @reduxjs/toolkit
+
+# HTTP
+npm install axios
+
+# Icônes
+npm install react-native-vector-icons
+npm i --save-dev @types/react-native-vector-icons
+```
+
+### `react-native-screens` — ajout dans **MainActivity.kt**
 
 ```kotlin
-/**
-for react-native-screens
-*/
+import android.os.Bundle
+
 override fun onCreate(savedInstanceState: Bundle?) {
-super.onCreate(null)
+    super.onCreate(null)   // nécessaire pour react-native-screens
 }
 ```
 
-il faut aussi ajouter les extensions reacvt native dans vscode
+---
 
-- **ES7+ React/Redux/React-Native snippets**
+## Constantes
 
-maintenant on va installer redux :
+`src/constants/apiConstant.ts`
 
-pour gerer les données recuperée depuis l’api
+```ts
+export const API_URL = 'https://dragonball-api.com/api/';
+```
 
-- npm i react-redux @reduxjs/toolkit
+`src/constants/colors.ts`
 
-on va installer une derniére librairie : 
-
-- npm i axios
-
-nouveau dossier src a la racine 
-
-- assets ( fonts, images )
-- components
-- constants ( constantes )
-- navigations
-- screens ( ecrans de la navigation )
-- store ( gerer data )
-- types
-
-absents : hooks, services, …
-
-pour l’api que nou allons utiliser, il faut
-
-- swagger : https://dragonball-api.com/api-docs#/Characters/CharactersController_findAll
-- accueil : https://web.dragonball-api.com/
-
-on telecharge les assets et fonts et on les mets dans notre dossier assets
-
-pour le swagger , on recupere l’url : 
-
-`https://dragonball-api.com/api/`
-
-dans le dossier constants nouveau fichier apiConstant.Ts
-
-on ajoute un :  export const API_URL = 'https://dragonball-api.com/api/';
-
-nouveau fichier dans constantsw pour les couleurs pour la charte graphique
-
+```ts
 export const ORANGE = '#EA9F2A';
 export const YELLOW = '#FFZ21B';
-export const RED = '#CE1029';
+export const RED    = '#CE1029';
+```
 
-dans app.tsx CTRL A + DELETE ALL
+---
 
-- rnfe
+## API Dragon Ball
 
-rnfe =
+- Swagger : <https://dragonball-api.com/api-docs#/Characters/CharactersController_findAll>  
+- Base URL : `https://dragonball-api.com/api/`
+
+---
+
+## Nettoyer `App.tsx` (snippet **rnfe**)
+
+```tsx
+import React from 'react';
+import { View, Text } from 'react-native';
+
+const App = () => (
+  <View>
+    <Text>App</Text>
+  </View>
+);
+
+export default App;
+```
+
+---
+
+## Typage — `src/types/character.ts`
+
+```ts
+export interface Character {
+  id: number;
+  name: string;
+  ki: string;
+  maxKi: string;
+  race: string;
+  gender: string;
+  description: string;
+  image: string;
+  affiliation: string;
+  deletedAt: string | null;
+  originPlanet?: Planet;
+  transformations?: Transformation[];
+}
+
+export interface Planet {
+  id: number;
+  name: string;
+  isDestroyed: boolean;
+  description: string;
+  image: string;
+  deletedAt: string | null;
+}
+
+export interface Transformation {
+  id: number;
+  name: string;
+  image: string;
+  ki: string;
+  deletedAt: string | null;
+}
+
+export interface CharacterResponse {
+  items: Character[];
+  meta: {
+    totalItems: number;
+    itemCount: number;
+    itemsPerPage: number;
+    totalPages: number;
+    currentPage: number;
+  };
+  links: {
+    first: string;
+    previous: string;
+    next: string;
+    last: string;
+  };
+}
+```
+
+---
+
+## Écrans à créer
+
+- `Home.tsx`
+- `Detail.tsx`
+- `Search.tsx`
+
+---
+
+## Navigation
+
+### `src/navigations/MainNavigation.tsx`
+
+```tsx
+import { createStackNavigator } from '@react-navigation/stack';
+import Home from '../screens/Home';
+
+const Stack = createStackNavigator();
+
+export const MainNavigation = () => (
+  <Stack.Navigator initialRouteName="TabHome">
+    <Stack.Screen
+      name="TabHome"
+      component={Home}
+      options={{ headerShown: false }}
+    />
+  </Stack.Navigator>
+);
+```
+
+### `index.js`
+
+```js
+import 'react-native-gesture-handler';
+```
+
+### `App.tsx`
+
+```tsx
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { MainNavigation } from './src/navigations/MainNavigation';
+
+const App = () => (
+  <NavigationContainer>
+    <MainNavigation />
+  </NavigationContainer>
+);
+
+export default App;
+```
+
+---
+
+**Votre base de projet est prête !**  
+Poursuivez avec l’implémentation des écrans et la consommation de l’API Dragon Ball.
