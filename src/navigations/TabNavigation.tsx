@@ -3,12 +3,20 @@ import Home from "../screens/Home";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Search from "../screens/Search";
 import { StyleSheet } from "react-native";
+import { YELLOW, ORANGE } from "../constants/colorConstants";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigation = () => {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+        screenOptions={{
+            headerShown: false,
+            tabBarActiveTintColor: YELLOW,
+            tabBarInactiveTintColor: ORANGE,
+            tabBarStyle: styles.tabBar,
+            tabBarLabelStyle: styles.tabBarLabel,
+        }}>
             <Tab.Screen
                 name="HomeTab"
                 component={Home}
@@ -37,7 +45,14 @@ const TabNavigation = () => {
 const styles = StyleSheet.create({
     tabBar: {
         backgroundColor: '#010101',
-        
+        borderTopWidth: 0,
+        elevation: 8,
+        height: 60,
+        paddingBottom: 5
+    },
+    tabBarLabel: {
+        fontSize: 12,
+        fontWeight: '500',
     }
 })
 
