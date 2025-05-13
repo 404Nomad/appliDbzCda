@@ -75,7 +75,7 @@ export const fetchCharacters = (page: number = 1, limit: number = 10) => async (
         // si une erreur, on remplit le state error avec le message d'erreur
         const errorMessage = error instanceof Error ? error.message : "Une erreur est survenue lors de la récupération des personnages.";
         dispatch(setError(errorMessage)); // on dispatch l'erreur
-        console.error('Erreur lors du FetchCharacters:', error);
+        console.error("Erreur lors du FetchCharacters:", error);
     } finally {
         dispatch(setLoading(false)); // on reset l'état de loading
     }
