@@ -7,10 +7,11 @@ import { RootState } from '../store/store'
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const [currentPage, setCurrentPage] = React.useState(1); // State to manage the current page, 1 by default
 
   useEffect(() => {
-    dispatch(fetchCharacters(1, 10)); // Fetch characters when the component mounts, page 1 et limit 10
-  }, [dispatch]);
+    dispatch(fetchCharacters(currentPage, 10)); // Fetch characters when the component mounts, page 1 et limit 10
+  }, [dispatch, currentPage]); // si currentpage change, on refait la requete
 
   const { characters, loading, error } = useSelector(
     (state: RootState) => state.Characters,
