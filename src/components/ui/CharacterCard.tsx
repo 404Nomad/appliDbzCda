@@ -14,10 +14,16 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character, onPress }) => 
       activeOpacity={0.7}
       style={styles.card}
     >
-    <View style={styles.imageContainer}>
-      <Image source={{ uri: character.image }} style={styles.image} />
-    </View>
+      <View style={styles.imageContainer}>
+        <Image source={{ uri: character.image }} style={styles.image} />
+      </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.name}>{character.name}</Text>
+        <View style={styles.raceContainer}>
+          <Text style={styles.race}>{character.race}</Text>
+        </View>
 
+      </View>
     </TouchableOpacity>
   )
 }
@@ -32,7 +38,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     elevation: 3,
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
@@ -45,7 +51,31 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     resizeMode: 'contain'
-  }
-})
+  },
+  infoContainer: {
+    flex: 1,
+    padding: 12,
+    justifyContent: 'space-between',
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 4,
+  },
+  raceContainer: {
+    backgroundColor: '#ffd700',
+    alignSelf: 'flex-start',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 12,
+    marginBottom: 6,
+  },
+  race: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: '#333',
+  },
+});
 
 export default CharacterCard
