@@ -22,6 +22,15 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character, onPress }) => 
         <View style={styles.raceContainer}>
           <Text style={styles.race}>{character.race}</Text>
         </View>
+        <View style={styles.statsRow}>
+          <View style={styles.statItem}>
+            <Text style={styles.statLabel}>Ki</Text>
+            <Text style={styles.statValue}>{character.ki}</Text>
+          </View>
+          <View style={styles.affiliationContainer}>
+            <Text style={styles.affiliation}>{character.affiliation}</Text>
+          </View>
+        </View>
 
       </View>
     </TouchableOpacity>
@@ -76,6 +85,34 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#333',
   },
+  statsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  statItem: {
+    flexDirection: 'column',
+  },
+  statLabel: {
+    fontSize: 12,
+    color: '#666',
+  },
+  statValue: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#333',
+  },
+  affiliationContainer: {
+    backgroundColor: '#E0E0E0',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 12,
+  },
+  affiliation: {
+    fontSize: 12,
+    color: '#333',
+  },
+
 });
 
-export default CharacterCard
+export default CharacterCard;
