@@ -50,6 +50,11 @@ const Home = () => {
     navigation.navigate('Detail', {characterId}); // on navigue vers la page de details du personnage
   }
 
+  // handlePageChange
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page); // on set la page courante
+  }
+
   // on traite le cas du chargement des données
   // si loading est vrai et qu'il n'y a pas de personnages alors on affiche le loading
   if (loading && !characters) {
