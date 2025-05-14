@@ -84,6 +84,8 @@ const Home = () => {
             tintColor={'#FF6b6b'} // on change la couleur du loading
           />
         }
+        contentContainerStyle={styles.listContent} // on applique le style de la liste
+        showsVerticalScrollIndicator={false} // on cache la barre de scroll
       />
     </View>
   );
@@ -113,6 +115,10 @@ const styles = StyleSheet.create({
     padding: 8,
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
   },
+  listContent: {
+    paddingVertical: 12,
+    paddingBottom: 80,
+  }
 })
 
 export default Home
