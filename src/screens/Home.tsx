@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch } from '../store/store'
@@ -31,18 +31,55 @@ const Home = () => {
 
   console.log('characters', characters);
 
-  // cas du chargement des données
-  if (!loading) {
-    return <Loading message={"Chargement des personnages..."}/> // on affiche le loading
+  // on traite le cas du chargement des données
+  // si loading est vrai et qu'il n'y a pas de personnages alors on affiche le loading
+  if (loading && !characters) {
+    return <Loading message={"Chargement des personnages..."} /> // on affiche le loading
   }
 
-
+  // on traite le cas d'erreur
+  // si il y a une erreur et qu'il n'y a pas de personnages alors on affiche l'erreur
+  if (error && !characters) {
+    //si dans notre store il y a une erreur
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Error</Text>
+        <Text style={styles.retryText} onPress={loadCharacters}>Appuyer pour réessayer</Text>
+      </View>
+    )
+  }
 
   return (
-    <View>
-      <Text>Home</Text>
+    <View style={styles.container}>
+      <Text >Home</Text>
     </View>
-  )
-}
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorText: {
+    fontSize: 16,
+    color: '#ff6B6B',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  retryText: {
+    fontSize: 16,
+    color: '#5D5FEF',
+    fontWeight: 'bold',
+    padding: 8,
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+  },
+})
 
 export default Home
