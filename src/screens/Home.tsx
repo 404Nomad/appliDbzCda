@@ -10,6 +10,7 @@ import HomeHeader from '../components/section/HomeHeader'
 import CharacterCard from '../components/ui/CharacterCard'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../navigations/MainNavigation'
+import Pagination from '../components/section/Pagination'
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -87,6 +88,15 @@ const Home = () => {
         contentContainerStyle={styles.listContent} // on applique le style de la liste
         showsVerticalScrollIndicator={false} // on cache la barre de scroll
       />
+
+        {characters?.meta && (
+          <Pagination 
+            currentPage={characters.meta.currentPage} // on affiche la pagination
+            totalPages={characters.meta.totalPages} // on affiche la pagination
+            onPageChange={handlePageChange}
+          />
+        )}
+
     </View>
   );
 };
