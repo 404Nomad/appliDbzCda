@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch } from '../store/store'
@@ -35,6 +35,12 @@ const Home = () => {
     (state: RootState) => state.Characters,
   );
 
+  const handleRefresh = () => { 
+    setRefreshing(true); // on set le refreshing a true
+    loadCharacters(); // on recharge les personnages
+    setRefreshing(false); // on set le refreshing a false
+  } // on rafraichit la liste
+
   console.log('characters', characters);
 
   // handleselectCharacter
@@ -70,6 +76,14 @@ const Home = () => {
         renderItem={({ item }) => (
           <CharacterCard character={item} onPress={() => handleSelectCharacter(item.id)} />
         )}
+        refreshControl={
+          <RefreshControl 
+            refreshing={refreshing} // on affiche le loading si refreshing est vrai
+            onRefresh={handleRefresh} // on rafraichit la liste
+            colors={['#FF6b6b']} // on change la couleur du loading
+            tintColor={'#FF6b6b'} // on change la couleur du loading
+          />
+        }
       />
     </View>
   );
