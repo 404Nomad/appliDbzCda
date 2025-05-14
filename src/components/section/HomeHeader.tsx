@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         color: ORANGE,
     },
     divider: {
-        height: 8,
+        height: 7,
         backgroundColor: ORANGE,
         marginTop: 16,
     }

@@ -7,6 +7,7 @@ import { RootState } from '../store/store'
 import { useNavigation } from '@react-navigation/native'
 import Loading from '../components/ui/Loading'
 import HomeHeader from '../components/section/HomeHeader'
+import CharacterCard from '../components/ui/CharacterCard'
 
 const Home = () => {
   // on recupere les hooks
@@ -57,7 +58,7 @@ const Home = () => {
         data={characters?.items || []} // on affiche les personnages, tableau vide si pas de personnages
         keyExtractor={(item) => item.id.toString()} // on utilise l'id du personnage comme clé
         renderItem={( {item} ) => (
-          <Text>{item.name}</Text> // on affiche le nom du personnage
+          <CharacterCard character={item}/>
         )}
       />
     </View>
