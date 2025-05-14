@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch } from '../store/store'
@@ -53,7 +53,13 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <HomeHeader />
-      <Text >Home</Text>
+      <FlatList  
+        data={characters?.items || []} // on affiche les personnages, tableau vide si pas de personnages
+        keyExtractor={(item) => item.id.toString()} // on utilise l'id du personnage comme clé
+        renderItem={( {item} ) => (
+          <Text>{item.name}</Text> // on affiche le nom du personnage
+        )}
+      />
     </View>
   );
 };
