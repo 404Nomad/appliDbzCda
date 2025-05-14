@@ -5,6 +5,7 @@ import { AppDispatch } from '../store/store'
 import { fetchCharacters } from '../store/characters/characterSlice'
 import { RootState } from '../store/store'
 import { useNavigation } from '@react-navigation/native'
+import Loading from '../components/ui/Loading'
 
 const Home = () => {
   // on recupere les hooks
@@ -32,7 +33,7 @@ const Home = () => {
 
   // cas du chargement des données
   if (!loading) {
-    return <Text style={{ color: 'black'}}>'Chargement...'</Text>; // Affiche un message de chargement
+    return <Loading message={"Chargement des personnages..."}/> // on affiche le loading
   }
 
 
