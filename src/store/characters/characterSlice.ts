@@ -81,5 +81,21 @@ export const fetchCharacters = (page: number = 1, limit: number = 10) => async (
     }
 }
 
+export const fetchCharacterDetail = (id: number) => async (dispatch: any) => {
+
+    try {
+        dispatch(setLoading(true)); // on passe le state loading a true avant de faire la requete
+        const response = await axios.get<Character>(`${API_URL}/characters/${id}`); // on fait la requete
+        dispatch(setCharacterDetail(response.data)); // on dispatch le personnage detail
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "Une erreur est survenue lors de la récupération du détail d'un personnage.";
+        dispatch(setError(errorMessage)); // on dispatch l'erreur
+        console.error("Erreur lors du FetchCharacterDetail:", error);
+    } finally {
+        dispatch(setLoading(false)); // on reset l'état de loading
+
+    }
+}
+
 // il faut aussi exporter les reducer, pour apeller le slice dans le store
 export default characterSlice.reducer;
