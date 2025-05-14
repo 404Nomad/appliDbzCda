@@ -6,6 +6,7 @@ import { fetchCharacters } from '../store/characters/characterSlice'
 import { RootState } from '../store/store'
 import { useNavigation } from '@react-navigation/native'
 import Loading from '../components/ui/Loading'
+import HomeHeader from '../components/section/HomeHeader'
 
 const Home = () => {
   // on recupere les hooks
@@ -51,6 +52,7 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
+      <HomeHeader />
       <Text >Home</Text>
     </View>
   );
