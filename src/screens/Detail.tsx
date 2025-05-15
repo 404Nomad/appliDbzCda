@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCharacterDetail } from '../store/characters/characterSlice';
 import Loading from '../components/ui/Loading';
 import DetailHeader from '../components/detail/DetailHeader';
+import DetailStats from '../components/detail/DetailStats';
 
 // creer type 
 type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
@@ -43,15 +44,16 @@ const Detail = () => {
   console.log("characterDetail", characterDetail); // afficher le personnage detail dans la console
 
   return (
-    <ScrollView style={styles.container}>
-      {characterDetail ? (
-        <DetailHeader character={characterDetail} />
-      ) : (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>Détails du personnage introuvables.</Text>
-        </View>
-      )}
-    </ScrollView>
+  <ScrollView style={styles.container}>
+    {characterDetail && (
+      <DetailHeader character={characterDetail} />
+    )}
+
+      <View style={styles.content}>
+        <DetailStats character ={characterDetail} />
+      </View>
+
+  </ScrollView>
   )
 }
 
@@ -69,7 +71,11 @@ const styles = StyleSheet.create( {
     marginBottom: 16,
   },
   container: {
-
+    flex:1,
+    backgroundColor: '#FFF',
+  },
+  content: {
+    padding: 16,
   },
 } );
 
