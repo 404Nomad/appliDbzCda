@@ -22,6 +22,13 @@ const DetailPlanet: React.FC<DetailPlanetProps> = ({ planet }) => {
                         style={styles.planetImage}
                     />
                 )}
+                <View style={styles.planetInfo}>
+                    <Text style={styles.planetName}>{planet?.name}</Text>
+                    <Text style={[styles.planetStatus, {color: planet?.isDestroyed ? 'red' : 'green'}]}
+                    >
+                        {planet.isDestroyed ? 'Détruite' : 'Existante'}</Text>
+                    <Text style={styles.planetDescription}>{planet?.description}</Text>
+                </View>
             </View>
         </View>
     )
@@ -52,6 +59,28 @@ const styles = StyleSheet.create({
         height: 150,
         resizeMode: 'contain',
     },
+    planetInfo: {
+        padding: 16,
+    },
+    planetName: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 4,
+    },
+    planetStatus: {
+        fontSize: 14,
+        // color: '#FF6b6b',
+        fontWeight: '500',
+        marginBottom: 8,
+    },
+    planetDescription: {
+        fontSize: 14,
+        lineHeight: 20,
+        color: '#555',
+    }
+
+
 
 
 })
