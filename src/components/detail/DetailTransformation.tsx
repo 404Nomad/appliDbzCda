@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 import { Transformation } from '../../types/character'
+import TransformationCard from '../ui/TransformationCard';
 
 interface DetailTransformationProps {
     transformations: Transformation[]
@@ -13,15 +14,18 @@ const DetailTransformation: React.FC<DetailTransformationProps> = ({ transformat
     return (
         <View style={styles.container}>
             <Text style={styles.sectionTitle}>Transformations</Text>
-            <ScrollView 
+            <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
                 style={styles.transformationContainer}
             >
                 {transformations && transformations.map(transformations => (
-                    <Text>{transformations?.name}</Text>
+                    <TransformationCard
+                        transformation={transformations}
+                        key={transformations.id}
+                    />
                 ))}
-                
+
             </ScrollView>
         </View>
     );
