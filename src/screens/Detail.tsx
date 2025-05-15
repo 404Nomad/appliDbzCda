@@ -9,6 +9,7 @@ import Loading from '../components/ui/Loading';
 import DetailHeader from '../components/detail/DetailHeader';
 import DetailStats from '../components/detail/DetailStats';
 import DetailPlanet from '../components/detail/DetailPlanet';
+import DetailTransformation from '../components/detail/DetailTransformation';
 
 // creer type 
 type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
@@ -51,10 +52,16 @@ const Detail = () => {
     )}
 
       <View style={styles.content}>
+
         <DetailStats character ={characterDetail} />
         { characterDetail?.originPlanet && (
           <DetailPlanet planet={characterDetail?.originPlanet}/>
         )}
+
+        {characterDetail?.transformations && (
+          <DetailTransformation transformations={characterDetail?.transformations}/>
+        )}
+
       </View>
 
   </ScrollView>
