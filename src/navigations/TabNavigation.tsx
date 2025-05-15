@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Search from "../screens/Search";
 import { StyleSheet } from "react-native";
 import { YELLOW, ORANGE } from "../constants/colorConstants";
+import Planet from "../screens/Planet";
 
 const Tab = createBottomTabNavigator();
 
@@ -25,6 +26,16 @@ const TabNavigation = () => {
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="home" color={color} size={size} />
                     )
+                }}
+            />
+            <Tab.Screen 
+                name="PlanetTab"
+                component={Planet}
+                options={{
+                    tabBarLabel: 'Planète',
+                    tabBarIcon: ({ color, size }) => (
+                        <Icon name="earth" color={color} size={size} />
+                    ),
                 }}
             />
             <Tab.Screen

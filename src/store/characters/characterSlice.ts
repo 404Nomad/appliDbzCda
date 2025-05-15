@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Character, CharacterResponse } from "../../types/character"
+import { Character, CharacterResponse, Planet, PlanetResponse } from "../../types/character"
 import axios from "axios";
 import { API_URL } from "../../constants/apiConstants";
 
@@ -9,7 +9,8 @@ interface CharactersState {
     error: string | null; // error
     characterDetail: Character | null; // character detail d'un seul personnage
     SelectedCharacterId: number | null; // id du personnage selectionné
-    CharacterByRace: Character[] | null
+    CharacterByRace: Character[] | null;
+    planet: PlanetResponse | null;
 }
 
 const initialState: CharactersState = {
@@ -19,6 +20,7 @@ const initialState: CharactersState = {
     characterDetail: null, // character detail d'un seul personnage
     SelectedCharacterId: null, // id du personnage selectionné
     CharacterByRace: null,
+    planet: null,
 }
 
 // on créer un setter pour chaque state initialisée
@@ -53,6 +55,9 @@ const characterSlice = createSlice({
         setCharacterByRace: (state, action: PayloadAction<Character[] | null>) => {
             state.CharacterByRace = action.payload; // on recupere le personnage detail
         },
+        setPlanet: (state, action: PayloadAction<PlanetResponse | null>) => {
+            state.planet = action.payload; // on recupere la planete
+        },
     },
 });
 
@@ -65,6 +70,7 @@ export const {
     clearCharacterDetail,
     clearSelectedCharacterId,
     setCharacterByRace,
+    setPlanet
 } = characterSlice.actions; // on exporte les actions
 
 //requetes base de données, double méthode anonyme
@@ -123,6 +129,26 @@ export const fetchCharacterByRace = (race: string) => async (dispatch: any) => {
         dispatch(setLoading(false));
     }
 };
+
+export const fetchPlanet = 
+    (page: number = 1, limit: number = 10) => async (dispatch: any) => {
+    //async donc try catch finally
+    try {
+        // on passe le state loading a true avant de faire la requete
+        dispatch(setLoading(true));
+        // on fait la requete
+        const response = await axios.get<PlanetResponse>(`${API_URL}/planets?page=${page}&limit=${limit}`); // on fait la requete
+        // on dispatch les personnages
+        dispatch(setPlanet(response.data)); // on dispatch les personnages
+    } catch (error) {
+        // si une erreur, on remplit le state error avec le message d'erreur
+        const errorMessage = error instanceof Error ? error.message : "Une erreur est survenue lors de la récupération des planetes.";
+        dispatch(setError(errorMessage)); // on dispatch l'erreur
+        console.error("Erreur lors du FetchPlanet:", error);
+    } finally {
+        dispatch(setLoading(false)); // on reset l'état de loading
+    }
+}
 
 // il faut aussi exporter les reducer, pour apeller le slice dans le store
 export default characterSlice.reducer;

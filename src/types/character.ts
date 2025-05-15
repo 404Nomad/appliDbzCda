@@ -46,3 +46,20 @@ export interface CharacterResponse {
         last: string
     };
 }
+
+export interface PlanetResponse {
+    items: Planet[];
+    meta: {
+        totalItems: 20,
+        itemCount: 10,
+        itemsPerPage: 10,
+        totalPages: 2,
+        currentPage: 1
+    };
+    links: {
+        first: string;
+        previous: string;
+        next: string;
+        last: string
+    };
+}
