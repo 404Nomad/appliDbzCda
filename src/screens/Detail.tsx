@@ -8,6 +8,7 @@ import { fetchCharacterDetail } from '../store/characters/characterSlice';
 import Loading from '../components/ui/Loading';
 import DetailHeader from '../components/detail/DetailHeader';
 import DetailStats from '../components/detail/DetailStats';
+import DetailPlanet from '../components/detail/DetailPlanet';
 
 // creer type 
 type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
@@ -51,6 +52,9 @@ const Detail = () => {
 
       <View style={styles.content}>
         <DetailStats character ={characterDetail} />
+        { characterDetail?.originPlanet && (
+          <DetailPlanet planet={characterDetail?.originPlanet}/>
+        )}
       </View>
 
   </ScrollView>
