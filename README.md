@@ -367,3 +367,28 @@ export default App;
 
 **Votre base de projet est prête !**  
 Poursuivez avec l’implémentation des écrans et la consommation de l’API Dragon Ball.
+
+
+
+Pour ajouter un filtre par race sur la vue détail j'ai fait : 
+trois étapes clés, en restant simple et DRY :
+
+    Extension du slice Redux
+
+        Tu as ajouté dans le CharactersState un champ CharacterByRace (initialisé à null) et une action setCharacterByRace pour stocker le tableau des personnages récupérés par race.
+
+        Tu as créé un thunk fetchCharacterByRace(race) qui déclenche setLoading, appelle l’API GET /characters?race=…, puis dispatch setCharacterByRace(response.data) (ou setError en cas d’échec).
+
+    Composants UI autonomes
+
+        RaceCard : une carte réutilisable affichant image, nom, race et affiliation, avec un onPress pour naviguer vers le détail.
+
+        DetailRace : un carousel horizontal qui mappe CharacterByRace en RaceCard, et dispatch l’action setSelectedCharacterId + navigation vers l’écran Detail.
+
+    Intégration dans l’écran Detail
+
+        Dans Detail.tsx, tu récupères via useSelector à la fois characterDetail, CharacterByRace, loading et error.
+
+        Premier useEffect pour fetcher le détail (fetchCharacterDetail(characterId)), second pour lancer fetchCharacterByRace(characterDetail.race) dès que characterDetail est disponible.
+
+        Enfin, tu conditionnes l’affichage de <DetailRace characters={CharacterByRace} /> seulement si le tableau existe et n’est pas vide.

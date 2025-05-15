@@ -4,13 +4,14 @@ import { RootStackParamList } from '../navigations/MainNavigation'
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { AppDispatch, RootState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCharacterDetail } from '../store/characters/characterSlice';
+import { fetchCharacterByRace, fetchCharacterDetail } from '../store/characters/characterSlice';
 import Loading from '../components/ui/Loading';
 import DetailHeader from '../components/detail/DetailHeader';
 import DetailStats from '../components/detail/DetailStats';
 import DetailPlanet from '../components/detail/DetailPlanet';
 import DetailTransformation from '../components/detail/DetailTransformation';
 import DetailBiographie from '../components/detail/DetailBiographie';
+import DetailRace from '../components/detail/DetailRace';
 
 // creer type 
 type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
@@ -23,11 +24,18 @@ const Detail = () => {
 
   const dispatch = useDispatch<AppDispatch>(); // recuperer le dispatch
 
-  const {characterDetail, loading, error} = useSelector((state: RootState) => state.Characters);
+  const {characterDetail,CharacterByRace, loading, error} = useSelector((state: RootState) => state.Characters);
 
   useEffect ( () => {
     dispatch(fetchCharacterDetail(characterId));
   }, [dispatch, characterId]); // on passe le dispatch et l'id du personnage en dependance
+
+  //on récupère les personnages du meme genre
+  useEffect(() => {
+    if(characterDetail && characterDetail.race){
+      dispatch(fetchCharacterByRace(characterDetail.race));
+    }
+  }, [dispatch, characterDetail]);
 
   // on gere le chargement de la page
   if (loading) {
@@ -64,6 +72,10 @@ const Detail = () => {
         )}
 
         <DetailBiographie description={characterDetail?.description}/>
+
+        {CharacterByRace && CharacterByRace.length > 0 && (
+          <DetailRace characters={CharacterByRace} />
+        )}
 
       </View>
 

@@ -9,6 +9,7 @@ interface CharactersState {
     error: string | null; // error
     characterDetail: Character | null; // character detail d'un seul personnage
     SelectedCharacterId: number | null; // id du personnage selectionné
+    CharacterByRace: Character[] | null
 }
 
 const initialState: CharactersState = {
@@ -17,6 +18,7 @@ const initialState: CharactersState = {
     error: null, // error
     characterDetail: null, // character detail d'un seul personnage
     SelectedCharacterId: null, // id du personnage selectionné
+    CharacterByRace: null,
 }
 
 // on créer un setter pour chaque state initialisée
@@ -47,7 +49,10 @@ const characterSlice = createSlice({
         },
         clearSelectedCharacterId: state => {
             state.SelectedCharacterId = null; // on reset l'id du personnage selectionné
-        }
+        },
+        setCharacterByRace: (state, action: PayloadAction<Character[] | null>) => {
+            state.CharacterByRace = action.payload; // on recupere le personnage detail
+        },
     },
 });
 
@@ -59,6 +64,7 @@ export const {
     setSelectedCharacterId,
     clearCharacterDetail,
     clearSelectedCharacterId,
+    setCharacterByRace,
 } = characterSlice.actions; // on exporte les actions
 
 //requetes base de données, double méthode anonyme
@@ -96,6 +102,27 @@ export const fetchCharacterDetail = (id: number) => async (dispatch: any) => {
 
     }
 }
+
+export const fetchCharacterByRace = (race: string) => async (dispatch: any) => {
+    try {
+        dispatch(setLoading(true));
+        const response = await axios.get<Character[]>(
+            `${API_URL}/characters?race=${race}`,
+        );
+        dispatch(setCharacterByRace(response.data));
+    } catch (error) {
+        //si une erreur on remplit le state error avec le message d'erreur
+        const errorMessage =
+            error instanceof Error
+                ? error.message
+                : 'Une erreur est survenue lors de la récupération des personnages par race';
+        dispatch(setError(errorMessage));
+        console.log('Erreur lors du fetchCharacterByRace:', error);
+    } finally {
+        //on repasse le state loading a false
+        dispatch(setLoading(false));
+    }
+};
 
 // il faut aussi exporter les reducer, pour apeller le slice dans le store
 export default characterSlice.reducer;
