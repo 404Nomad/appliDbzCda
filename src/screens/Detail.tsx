@@ -10,6 +10,7 @@ import DetailHeader from '../components/detail/DetailHeader';
 import DetailStats from '../components/detail/DetailStats';
 import DetailPlanet from '../components/detail/DetailPlanet';
 import DetailTransformation from '../components/detail/DetailTransformation';
+import DetailBiographie from '../components/detail/DetailBiographie';
 
 // creer type 
 type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
@@ -61,6 +62,8 @@ const Detail = () => {
         {characterDetail?.transformations && (
           <DetailTransformation transformations={characterDetail?.transformations}/>
         )}
+
+        <DetailBiographie description={characterDetail?.description}/>
 
       </View>
 
