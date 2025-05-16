@@ -17,6 +17,8 @@ import { AppDispatch } from '../../store/store';
 import { fetchChoiceCharacterDetail } from '../../store/characters/characterSlice';
 // import RootState from your store definition
 import { RootState } from '../../store/store';
+import FightResult from './FightResult';
+import Loading from '../ui/Loading';
 
 interface ChoiceFighterProps {
     characters: Character[];
@@ -27,6 +29,8 @@ const ChoiceFighter: React.FC<ChoiceFighterProps> = ({ characters }) => {
     const [character1, setCharacter1] = useState<Character | null>(null);
     const [character2, setCharacter2] = useState<Character | null>(null);
     const [typeCharacter, setTypeCharacter] = useState(0);
+    const [startFight, setStartFight] = useState(false);
+
     console.log('character1', character1);
     console.log('character2', character2);
     const dispatch = useDispatch<AppDispatch>();
@@ -61,54 +65,78 @@ const ChoiceFighter: React.FC<ChoiceFighterProps> = ({ characters }) => {
         setIsOpen(false);
     }
 
-    return (
-        <View style={styles.container}>
-            <TouchableOpacity style={styles.button} onPress={() => openModal(1)}>
-                <Text style={styles.buttonText}>{character1?.name || 'Joueur 1'}</Text>
-            </TouchableOpacity>
-            <Text style={styles.vs}>VS</Text>
-            <TouchableOpacity style={styles.button} onPress={() => openModal(2)}>
-                <Text style={styles.buttonText}>{character2?.name || 'Joueur 2'}</Text>
-            </TouchableOpacity>
+    const handleStartFight = () => {
+        setStartFight(true);
+    }
 
-            <Modal
-                visible={isOpen}
-                transparent={true}
-                animationType="slide"
-                onRequestClose={() => setIsOpen(false)}>
-                <SafeAreaView style={styles.modalContainer}>
-                    <StatusBar hidden />
-                    <TouchableOpacity
-                        style={styles.closeButton}
-                        onPress={() => setIsOpen(false)}>
-                        <Icon name="close-circle" size={32} color="#fff" />
-                    </TouchableOpacity>
-                    {/* affichage de tous les personnages */}
-                    <View style={styles.modalList}>
-                        <FlatList
-                            data={characters || []}
-                            keyExtractor={item => item.id.toString()}
-                            renderItem={({ item }) => {
-                                const nameTruncate =
-                                    item?.name.length > 10
-                                        ? item?.name.substring(0, 10) + '...'
-                                        : item?.name;
-                                return (
-                                    <TouchableOpacity
-                                        style={styles.containerList}
-                                        onPress={() => {
-                                            choiceCharacter(item?.id);
-                                        }}>
-                                        <Image source={{ uri: item?.image }} style={styles.image} />
-                                        <Text style={styles.text}>{nameTruncate}</Text>
-                                    </TouchableOpacity>
-                                );
-                            }}
-                            numColumns={3}
-                        />
-                    </View>
-                </SafeAreaView>
-            </Modal>
+    if (loading) return <Loading message='Chargement des personnages...' />
+    return (
+        <View>
+            {/* choix des perso */}
+            <View style={styles.container}>
+                <TouchableOpacity style={styles.button} onPress={() => openModal(1)}>
+                    <Text style={styles.buttonText}>{character1?.name || 'Joueur 1'}</Text>
+                </TouchableOpacity>
+                <Text style={styles.vs}>VS</Text>
+                <TouchableOpacity style={styles.button} onPress={() => openModal(2)}>
+                    <Text style={styles.buttonText}>{character2?.name || 'Joueur 2'}</Text>
+                </TouchableOpacity>
+
+                <Modal
+                    visible={isOpen}
+                    transparent={true}
+                    animationType="slide"
+                    onRequestClose={() => setIsOpen(false)}>
+                    <SafeAreaView style={styles.modalContainer}>
+                        <StatusBar hidden />
+                        <TouchableOpacity
+                            style={styles.closeButton}
+                            onPress={() => setIsOpen(false)}>
+                            <Icon name="close-circle" size={32} color="#fff" />
+                        </TouchableOpacity>
+                        {/* affichage de tous les personnages */}
+                        <View style={styles.modalList}>
+                            <FlatList
+                                data={characters || []}
+                                keyExtractor={item => item.id.toString()}
+                                renderItem={({ item }) => {
+                                    const nameTruncate =
+                                        item?.name.length > 10
+                                            ? item?.name.substring(0, 10) + '...'
+                                            : item?.name;
+                                    return (
+                                        <TouchableOpacity
+                                            style={styles.containerList}
+                                            onPress={() => {
+                                                choiceCharacter(item?.id);
+                                            }}>
+                                            <Image source={{ uri: item?.image }} style={styles.image} />
+                                            <Text style={styles.text}>{nameTruncate}</Text>
+                                        </TouchableOpacity>
+                                    );
+                                }}
+                                numColumns={3}
+                            />
+                        </View>
+                    </SafeAreaView>
+                </Modal>
+            </View>
+            {/* affichage du bouton commencer le combat*/}
+            {character1 && character2 && (    
+                <>
+                    {!startFight && (<TouchableOpacity
+                        style={[styles.button,{marginTop: 20}]}
+                        onPress={() => {
+                            handleStartFight();
+                        }}
+                    >
+                        <Text style={styles.buttonText}>Commencer le combat</Text>
+
+                    </TouchableOpacity>)}
+                    { startFight && <FightResult character1={character1} character2={character2}/>}
+                    
+                </>
+                )}
         </View>
     );
 };
@@ -137,6 +165,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
         fontWeight: 'bold',
+        textAlign: 'center',
     },
     vs: {
         fontSize: 26,
