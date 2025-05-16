@@ -5,6 +5,7 @@ import Search from "../screens/Search";
 import { StyleSheet } from "react-native";
 import { YELLOW, ORANGE } from "../constants/colorConstants";
 import Planet from "../screens/Planet";
+import Fight from "../screens/Fight";
 
 const Tab = createBottomTabNavigator();
 
@@ -35,6 +36,16 @@ const TabNavigation = () => {
                     tabBarLabel: 'Planète',
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="earth" color={color} size={size} />
+                    ),
+                }}
+            />
+            <Tab.Screen 
+                name="FightTab"
+                component={Fight}
+                options={{
+                    tabBarLabel: 'Combat',
+                    tabBarIcon: ({ color, size }) => (
+                        <Icon name="sword" color={color} size={size} />
                     ),
                 }}
             />
