@@ -41,7 +41,7 @@ const Search = () => {
     try {
       const response = await axios.get(`${API_URL}/characters?name=${trimmedQuery}`);
       setResults(response.data);
-      if(response.data.length === 0){
+      if (response.data.length === 0) {
         setError('Aucun personnage trouvé');
       }
     } catch (error) {
@@ -102,7 +102,7 @@ const Search = () => {
           <Text style={styles.errorText}>{error}</Text>
         </View>
       ) : (
-        <FlatList 
+        <FlatList
           data={results}
           renderItem={renderCharacterItem}
           keyExtractor={(item) => item.id.toString()}
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#010101',
     padding: 20,
-    paddingTop: 40,
+    paddingTop: 20,
   },
   title: {
     fontSize: 28,
