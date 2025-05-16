@@ -11,6 +11,8 @@ interface CharactersState {
     SelectedCharacterId: number | null; // id du personnage selectionné
     CharacterByRace: Character[] | null;
     planet: PlanetResponse | null;
+    characterDetail1: Character | null;
+    characterDetail2: Character | null;
 }
 
 const initialState: CharactersState = {
@@ -21,6 +23,8 @@ const initialState: CharactersState = {
     SelectedCharacterId: null, // id du personnage selectionné
     CharacterByRace: null,
     planet: null,
+    characterDetail1: null,
+    characterDetail2: null,
 }
 
 // on créer un setter pour chaque state initialisée
@@ -58,6 +62,12 @@ const characterSlice = createSlice({
         setPlanet: (state, action: PayloadAction<PlanetResponse | null>) => {
             state.planet = action.payload; // on recupere la planete
         },
+        setCharacter1: (state, action: PayloadAction<Character | null>) => {
+            state.characterDetail1 = action.payload; // on recupere le personnage detail
+        },
+        setCharacter2: (state, action: PayloadAction<Character | null>) => {
+            state.characterDetail2 = action.payload; // on recupere le personnage detail
+        },
     },
 });
 
@@ -70,7 +80,9 @@ export const {
     clearCharacterDetail,
     clearSelectedCharacterId,
     setCharacterByRace,
-    setPlanet
+    setPlanet,
+    setCharacter1,
+    setCharacter2,
 } = characterSlice.actions; // on exporte les actions
 
 //requetes base de données, double méthode anonyme
@@ -147,6 +159,23 @@ export const fetchPlanet =
         console.error("Erreur lors du FetchPlanet:", error);
     } finally {
         dispatch(setLoading(false)); // on reset l'état de loading
+    }
+}
+
+// selection des character 1 & 2 
+export const fetchChoiceCharacterDetail = (id: number, type: number) => async (dispatch: any) => {
+
+    try {
+        dispatch(setLoading(true)); // on passe le state loading a true avant de faire la requete
+        const response = await axios.get<Character>(`${API_URL}/characters/${id}`); // on fait la requete
+        type === 1 ? dispatch(setCharacter1(response.data)) : dispatch(setCharacter2(response.data)); 
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "Une erreur est survenue lors de la récupération du détail d'un personnage.";
+        dispatch(setError(errorMessage)); // on dispatch l'erreur
+        console.error("Erreur lors du FetchCharacterDetail:", error);
+    } finally {
+        dispatch(setLoading(false)); // on reset l'état de loading
+
     }
 }
 
