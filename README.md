@@ -392,3 +392,8 @@ trois étapes clés, en restant simple et DRY :
         Premier useEffect pour fetcher le détail (fetchCharacterDetail(characterId)), second pour lancer fetchCharacterByRace(characterDetail.race) dès que characterDetail est disponible.
 
         Enfin, tu conditionnes l’affichage de <DetailRace characters={CharacterByRace} /> seulement si le tableau existe et n’est pas vide.
+
+
+on va utiliser le localstorage, et simuler des combats entre les personnages
+on ajoute : npm i @react-native-async-storage/async-storage
+Creation new folder: services, new file StorageService.ts
